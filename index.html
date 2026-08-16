@@ -51,7 +51,7 @@
 
     <div id="music-container"></div>
 
-    <audio id="myAudio" loop>
+    <audio id="myAudio" autoplay loop>
         <source src="./music/birthday_song.mp3" type="audio/mpeg">
     </audio>
 
@@ -175,28 +175,27 @@
 
     <script>
         window.onload = function () {
-            var audio = document.getElementById("myAudio");
+            const audio = document.getElementById("myAudio");
+            audio.volume = 1.0;
+
+            const playMusic = () => {
+                audio.play().catch(error => {
+                    console.log("Autoplay blocked by browser:", error);
+                });
+            };
+
+            playMusic();
+
+            // document.addEventListener("click", playMusic, { once: true });
+            // document.addEventListener("touchstart", playMusic, { once: true });
+
             
-            // মিউজিক প্লে করার চেষ্টা করবে
-            audio.play().catch(function (e) {
-                console.log('Autoplay blocked by browser. Waiting for user interaction.');
-            });
-
-            // ব্রাউজার ব্লক করলে স্ক্রিনের যেকোনো জায়গায় প্রথম ক্লিকের সাথেই মিউজিক বাজবে
-            document.body.addEventListener('click', function() {
-                if (audio.paused) {
-                    audio.play();
-                }
-            }, { once: true });
-
-            // 🎆 ফায়ারওয়ার্ক এবং হার্ট অ্যানিমেশনের কোড 🎆
             const canvas = document.getElementById("canvas");
             if(canvas) {
                 const ctx = canvas.getContext("2d");
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
 
-                // স্ক্রিন ছোট বড় হলে (Mobile Rotation) canvas সাইজ ঠিক রাখবে
                 window.addEventListener('resize', function() {
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
